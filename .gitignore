@@ -1,0 +1,14 @@
+# Course materials (copyrighted / large) — not published
+Module2/
+Module3/
+# Local tooling, audio, transcripts, rendered page images, model caches
+_tools/
+_extract/
+# Build artefacts / local config
+study-site/node_modules/
+study-site/dist/
+study-site/.claude/
+.claude/
+*.wav
+*.mp4
+*.pdf
