@@ -106,9 +106,11 @@ for (const f of fs.readdirSync(dataDir).filter((f) => /^lecture_q_.*\.json$/.tes
 // Stable ids: topic + type + running number.
 const counters = {};
 questions = questions.map((q) => {
-  const k = q.topic + q.type;
+  // Lecture questions get their own counter per file so adding notes/MC rows never shifts their ids (and vice versa).
+  const lec = q.src && q.src.startsWith('lecture') ? 'L' + q.src.slice(8).replace(/-/g, '') : '';
+  const k = q.topic + q.type + lec;
   counters[k] = (counters[k] || 0) + 1;
-  return { id: `${q.topic}-${q.type}-${counters[k]}-${hash(q.q)}`, ...q };
+  return { id: `${q.topic}-${q.type}${lec}-${counters[k]}-${hash(q.q)}`, ...q };
 });
 // Drop items the lecturer said will not be examined (ids above stay stable).
 questions = questions.filter((q) => !(q.tags || []).includes('notest') && !/〔唔考〕/.test(q.q));
